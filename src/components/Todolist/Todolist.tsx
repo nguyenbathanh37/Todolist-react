@@ -1,12 +1,13 @@
-import { Row, Col, Input, Button, Space, Flex } from "antd";
+import { Row, Col, Input, Button, Space } from "antd";
 import Todo from "../Todo/Todo";
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { AppDispatch, RootState } from "../../redux/store";
 import { addTodo } from "./todoListSlice";
+import { uuid } from "uuidv4";
 
 const Todolist: React.FC = () => {
-    const [addText, setAddText] = useState('')
+    const [addText, setAddText] = useState<string>('')
     const todos = useSelector((state: RootState) => state.todoList.todos)
     const dispatch: AppDispatch = useDispatch()
 
@@ -15,7 +16,7 @@ const Todolist: React.FC = () => {
     }
 
     const handleClickAddText = () => {
-        dispatch(addTodo({id: todos.length, name: addText, completed: false}))
+        dispatch(addTodo({id: "uuid()", name: addText, completed: false}))
         setAddText('')
     }
 
@@ -23,7 +24,7 @@ const Todolist: React.FC = () => {
         <Row style={{ height: 'calc(100% - 40px)' }}>
             <Col span={24}  style={{ height: 'calc(100% - 40px)'}}>
                 {todos.map((todo) => (
-                    <Todo key={todo.id} name={todo.name}></Todo>
+                    <Todo key={todo.id} id={todo.id} name={todo.name}></Todo>
                 ))}
             </Col>
 
