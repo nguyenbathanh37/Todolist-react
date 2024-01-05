@@ -1,10 +1,10 @@
 import { Row, Col, Input, Button, Space } from "antd";
 import Todo from "../Todo/Todo";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { AppDispatch, RootState } from "../../redux/store";
-import { addTodo } from "./todoListSlice";
-import { uuid } from "uuidv4";
+import { addTodo, setTodo } from "./todoListSlice";
+import supabase from "../../supabase/supabase.config";
 
 const Todolist: React.FC = () => {
     const [addText, setAddText] = useState<string>('')
@@ -16,9 +16,47 @@ const Todolist: React.FC = () => {
     }
 
     const handleClickAddText = () => {
-        dispatch(addTodo({id: "uuid()", name: addText, completed: false}))
+        dispatch(addTodo({id: '', name: addText, completed: false}))
         setAddText('')
+        insertDataFromSupabase()
+        fetchDataFromSupabase()
     }
+
+    const insertDataFromSupabase = async () => {
+        try {
+            const { data, error } = await supabase
+            .from('Todo')
+            .insert([
+                { name: addText, completed: false },
+            ])
+
+            if (error) {
+                console.log('Error insert data', error.message);   
+            }
+        } catch (error) {
+            console.error('Unexpected error:', error)
+        }
+    }
+
+    const fetchDataFromSupabase = async () => {
+        try {
+            const { data, error } = await supabase
+            .from('Todo')
+            .select('*')
+      
+            if (error) {
+                console.error('Error fetching data', error.message)
+            } else {
+                dispatch(setTodo(data))
+            }
+        } catch (error) {
+            console.error('Unexpected error:', error)
+        }
+    }
+
+    useEffect(()=> {
+        fetchDataFromSupabase()
+    }, [])
 
     return (
         <Row style={{ height: 'calc(100% - 40px)' }}>

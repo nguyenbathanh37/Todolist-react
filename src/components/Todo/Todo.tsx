@@ -3,7 +3,8 @@ import { useState } from 'react';
 import { Row, Button, Col } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../redux/store';
-import { deleteTodo, editTodo } from '../Todolist/todoListSlice';
+import { deleteTodo, editTodo, setTodo } from '../Todolist/todoListSlice';
+import supabase from '../../supabase/supabase.config';
 
 type TodoProps = {
     id: string,
@@ -26,15 +27,46 @@ const Todo: React.FC<TodoProps> = ({id, name}) => {
 
     const handleClickDeleteTodo = (id: string) => {
         dispatch(deleteTodo(id))
-        console.log(id);
+        deleteDataFromSupabase()
+    }
+
+    const deleteDataFromSupabase = async () => {
+        try {
+            const { error } = await supabase
+            .from('Todo')
+            .delete()
+            .eq('id', id)
+            
+            if (error) {
+                console.error('Error delete data:', error.message)
+            }
+        } catch (error) {
+            console.error('Unexpected error:', error)
+        }
     }
 
     const handleClickEditTodo = () => {
         setIsModalOpen(true)
     }
 
+    const editDataFromSupabase = async () => {
+        try {
+            const { data, error } = await supabase
+            .from('Todo')
+            .update({ name: editText })
+            .eq('id', id)
+            
+            if (error) {
+                console.error('Error edit data:', error.message)
+            }
+        } catch (error) {
+            console.error('Unexpected error:', error)
+        }
+    }
+
     const handleOk = () => {
         dispatch(editTodo({id: id, name: editText}))
+        editDataFromSupabase()
         handleCancel()
     }
 
