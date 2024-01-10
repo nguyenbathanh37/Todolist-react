@@ -5,10 +5,13 @@ import { useSelector, useDispatch } from "react-redux";
 import { AppDispatch, RootState } from "../../redux/store";
 import { addTodo, setTodo } from "./todoListSlice";
 import supabase from "../../supabase/supabase.config";
+import { v4 as uuidv4 } from "uuid";
+import { selectTranslation } from "../../i18n/i18nSlice";
 
 const Todolist: React.FC = () => {
     const [addText, setAddText] = useState<string>('')
     const todos = useSelector((state: RootState) => state.todoList.todos)
+    const trans = useSelector(selectTranslation)
     const dispatch: AppDispatch = useDispatch()
 
     const handleAddText = (e: any) => {
@@ -16,10 +19,9 @@ const Todolist: React.FC = () => {
     }
 
     const handleClickAddText = () => {
-        dispatch(addTodo({id: '', name: addText, completed: false}))
+        dispatch(addTodo({id: uuidv4(), name: addText, completed: false}))
         setAddText('')
         insertDataFromSupabase()
-        fetchDataFromSupabase()
     }
 
     const insertDataFromSupabase = async () => {
@@ -69,8 +71,8 @@ const Todolist: React.FC = () => {
             <Col span={24}>
                 <Row>
                     <Space.Compact style={{ width: '100%' }}>
-                        <Input placeholder="Add Todo" value={addText} onChange={handleAddText}/>
-                        <Button type="primary" onClick={handleClickAddText}>Add</Button>
+                        <Input placeholder={trans.phAdd} value={addText} onChange={handleAddText}/>
+                        <Button type="primary" onClick={handleClickAddText}>{trans.Add}</Button>
                     </Space.Compact>
                 </Row>
             </Col>

@@ -3,8 +3,9 @@ import { useState } from 'react';
 import { Row, Button, Col } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../redux/store';
-import { deleteTodo, editTodo, setTodo } from '../Todolist/todoListSlice';
+import { deleteTodo, editTodo, checkedTodo } from '../Todolist/todoListSlice';
 import supabase from '../../supabase/supabase.config';
+import { selectTranslation } from '../../i18n/i18nSlice';
 
 type TodoProps = {
     id: string,
@@ -13,6 +14,7 @@ type TodoProps = {
 
 const Todo: React.FC<TodoProps> = ({id, name}) => {
     const todos = useSelector((state: RootState) => state.todoList.todos)
+    const trans = useSelector(selectTranslation)
     const dispatch: AppDispatch = useDispatch()
     
     const completed = todos.find(todo => todo.id === id)?.completed
@@ -23,6 +25,23 @@ const Todo: React.FC<TodoProps> = ({id, name}) => {
 
     const onChange = () => {
         setChecked(!checked)
+        dispatch(checkedTodo({id: id, completed: !checked}))
+        editCompletedFromSupabase()
+    }
+
+    const editCompletedFromSupabase = async () => {
+        try {
+            const { data, error } = await supabase
+            .from('Todo')
+            .update({ completed: !checked })
+            .eq('id', id)
+            
+            if (error) {
+                console.error('Error edit completed:', error.message)
+            }
+        } catch (error) {
+            console.error('Unexpected error:', error)
+        }
     }
 
     const handleClickDeleteTodo = (id: string) => {
@@ -93,13 +112,13 @@ const Todo: React.FC<TodoProps> = ({id, name}) => {
             </Col>
             <Col>
                 <Button type="primary" onClick={handleClickEditTodo}>
-                    Edit
+                    {trans.Edit}
                 </Button>
                 <Modal title="Edit Todo" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
                     <Input value={editText} onChange={handleChangeEditText}/>
                 </Modal>
                 <Button type="primary" danger onClick={() => handleClickDeleteTodo(id)}>
-                    Delete
+                    {trans.Delete}
                 </Button>
             </Col>
         </Row>

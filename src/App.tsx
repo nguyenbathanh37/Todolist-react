@@ -4,6 +4,7 @@ import './App.css';
 import Title from './components/Title/Title'
 import Filter from './components/Filter/Filter';
 import Todolist from './components/Todolist/Todolist';
+import ChangeLanguage from './components/ChangeLanguage/ChangLanguage';
 import { Divider } from 'antd';
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
         height: '90vh',
       }}
     >
+      <ChangeLanguage></ChangeLanguage>
       <Title></Title>
       <Filter></Filter>
       <Divider></Divider>

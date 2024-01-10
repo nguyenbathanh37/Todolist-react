@@ -17,7 +17,6 @@ const initialState: TodoListState = {
 
 console.log(initialState);
 
-
 export const todoListSlice = createSlice({
   name: 'todoList',
   initialState,
@@ -37,8 +36,11 @@ export const todoListSlice = createSlice({
         todo.name = action.payload.name
       }
     },
-    checkedTodo: (state, action: PayloadAction<string>) => {
-      
+    checkedTodo: (state, action: PayloadAction<{id: string, completed: boolean}>) => {
+      const todo = state.todos.find(todo => todo.id === action.payload.id)
+      if (todo) {
+        todo.completed = action.payload.completed
+      }
     }
   },
 })

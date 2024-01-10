@@ -1,0 +1,9 @@
+{
+    "Title": "Todo App with Redux",
+    "Add": "Add",
+    "Delete": "Delete", 
+    "Edit": "Edit",
+    "Search": "Search",
+    "phAdd": "Add Todo",
+    "phSearch": "Enter the todo you want to search for"
+}
