@@ -1,11 +1,9 @@
 {
-    
-        "Title": "Ứng dụng việc cần làm với Redux",
+        "Title": "Ứng dụng việc cần làm",
         "Add": "Thêm",
         "Delete": "Xóa", 
         "Edit": "Sửa",
         "Search": "Tìm kiếm",
         "phAdd": "Thêm việc cần làm",
         "phSearch": "Nhập việc cần làm muốn tìm kiếm"
-    
 }
