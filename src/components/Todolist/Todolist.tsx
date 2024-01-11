@@ -3,14 +3,14 @@ import Todo from "../Todo/Todo";
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { AppDispatch, RootState } from "../../redux/store";
-import { addTodo, setTodo, setCurrentPage, selectCurrentPage, selectTodosPerPage, selectNumberOfTodosPerPage } from "./todoListSlice";
+import { addTodo, setTodo, setCurrentPage, selectCurrentPage, selectTodosPerPage, selectNumberOfTodosPerPage, selectTodos } from "./todoListSlice";
 import supabase from "../../supabase/supabase.config";
 import { v4 as uuidv4 } from "uuid";
 import { selectTranslation } from "../../i18n/i18nSlice";
 
 const Todolist: React.FC = () => {
     const [addText, setAddText] = useState<string>('')
-    const todos = useSelector((state: RootState) => state.todoList.todos)
+    const todos = useSelector(selectTodos)
     const todosPerPage = useSelector(selectTodosPerPage)
     const numberOfTodosPerPage = useSelector(selectNumberOfTodosPerPage)
     const currentPage = useSelector(selectCurrentPage)

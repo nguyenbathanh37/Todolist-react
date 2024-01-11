@@ -1,11 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 interface FilterState {
-  filter: string
+  search: string
 }
 
 const initialState: FilterState = {
-  filter: ''
+  search: ''
 }
 
 console.log(initialState);
@@ -15,7 +15,7 @@ export const filterSlice = createSlice({
   initialState,
   reducers: {
     search: (state, action: PayloadAction<string>) => {
-      state.filter = action.payload
+      state.search = action.payload
     }
   },
 })

@@ -1,7 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { RootState } from '../../redux/store';
 
-
 interface Todo {
   id: string,
   name: string,
@@ -17,7 +16,7 @@ interface TodoListState {
 const initialState: TodoListState = {
   todos: [],
   currentPage: 1,
-  todosPerPage: 2
+  todosPerPage: 10
 }
 
 export const todoListSlice = createSlice({
@@ -54,10 +53,18 @@ export const todoListSlice = createSlice({
 export const { setTodo, addTodo, deleteTodo, editTodo, checkedTodo, setCurrentPage } = todoListSlice.actions
 export default todoListSlice.reducer
 
+export const selectTodos = (state: RootState) => {
+  const todosRemaining = state.todoList.todos.filter((todo) => {
+    return todo.name.includes(state.filter.search)
+  })
+
+  return todosRemaining
+}
 export const selectCurrentPage = (state: RootState) => state.todoList.currentPage
 export const selectNumberOfTodosPerPage = (state: RootState) => state.todoList.todosPerPage
 export const selectTodosPerPage = (state: RootState) => {
   const start = (state.todoList.currentPage - 1) * state.todoList.todosPerPage
   const end = start + state.todoList.todosPerPage
-  return state.todoList.todos.slice(start, end)
+  const todos = selectTodos(state)
+  return todos.slice(start, end)
 }
