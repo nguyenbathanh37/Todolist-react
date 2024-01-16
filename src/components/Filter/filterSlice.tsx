@@ -9,8 +9,6 @@ const initialState: FilterState = {
   search: ''
 }
 
-console.log(initialState);
-
 export const filterSlice = createSlice({
   name: 'filter',
   initialState,

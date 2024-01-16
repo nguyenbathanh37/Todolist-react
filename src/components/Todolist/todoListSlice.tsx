@@ -18,7 +18,7 @@ interface TodoListState {
 const initialState: TodoListState = {
   todos: [],
   currentPage: 1,
-  todosPerPage: 3
+  todosPerPage: 10
 }
 
 export const todoListSlice = createSlice({
@@ -55,13 +55,6 @@ export const todoListSlice = createSlice({
 export const { setTodo, addTodo, deleteTodo, editTodo, checkedTodo, setCurrentPage } = todoListSlice.actions
 export default todoListSlice.reducer
 
-// export const selectTodos = (state: RootState) => {
-//   const todosRemaining = state.todoList.todos.filter((todo) => {
-//     return todo.name.includes(state.filter.search)
-//   })
-
-//   return todosRemaining
-// }
 export const selectTodos = (state: RootState) => state.todoList.todos
 export const selectFilterTodos = createSelector(
   selectSearch,
@@ -77,12 +70,6 @@ export const selectFilterTodos = createSelector(
 
 export const selectCurrentPage = (state: RootState) => state.todoList.currentPage
 export const selectNumberOfTodosPerPage = (state: RootState) => state.todoList.todosPerPage
-// export const selectTodosPerPage = (state: RootState) => {
-//   const start = (selectCurrentPage(state) - 1) * selectNumberOfTodosPerPage(state)
-//   const end = start + selectNumberOfTodosPerPage(state)
-//   const todos = selectTodos(state)
-//   return todos.slice(start, end)
-// }
 
 export const selectTodosPerPage = createSelector(
   selectCurrentPage,

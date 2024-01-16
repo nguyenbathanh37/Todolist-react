@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Row, Button, Col } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../redux/store';
-import { deleteTodo, editTodo, checkedTodo, selectTodosPerPage, setCurrentPage, selectCurrentPage } from '../Todolist/todoListSlice';
+import { deleteTodo, editTodo, checkedTodo, selectTodosPerPage, setCurrentPage, selectCurrentPage, selectTodos } from '../Todolist/todoListSlice';
 import supabase from '../../supabase/supabase.config';
 import { selectTranslation } from '../../i18n/i18nSlice';
 
@@ -13,7 +13,7 @@ type TodoProps = {
 }
 
 const Todo: React.FC<TodoProps> = ({id, name}) => {
-    const todos = useSelector((state: RootState) => state.todoList.todos)
+    const todos = useSelector(selectTodos)
     const todosPerPage = useSelector(selectTodosPerPage)
     const currentPage = useSelector(selectCurrentPage)
     const trans = useSelector(selectTranslation)
