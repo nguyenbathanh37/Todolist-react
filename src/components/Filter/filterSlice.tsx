@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { RootState } from '../../redux/store';
 
 interface FilterState {
   search: string
@@ -23,3 +24,5 @@ export const filterSlice = createSlice({
 export const { search } = filterSlice.actions
 
 export default filterSlice.reducer
+
+export const selectSearch = (state: RootState) => state.filter.search
