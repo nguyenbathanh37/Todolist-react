@@ -5,5 +5,6 @@
         "Edit": "Sửa",
         "Search": "Tìm kiếm",
         "phAdd": "Thêm việc cần làm",
-        "phSearch": "Nhập việc cần làm muốn tìm kiếm"
+        "phSearch": "Nhập việc cần làm muốn tìm kiếm",
+        "errorEmpty": "Việc cần làm không được để trống"
 }

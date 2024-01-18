@@ -1,4 +1,4 @@
-import { Row, Col, Input, Button, Space, Pagination } from "antd";
+import { Row, Col, Input, Button, Space, Pagination, message } from "antd";
 import Todo from "../Todo/Todo";
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
@@ -16,15 +16,24 @@ const Todolist: React.FC = () => {
     const currentPage = useSelector(selectCurrentPage)
     const trans = useSelector(selectTranslation)
     const dispatch: AppDispatch = useDispatch()
+    const [messageApi, contextHolder] = message.useMessage();
 
     const handleAddText = (e: any) => {
         setAddText(e.target.value)
     }
 
     const handleClickAddText = () => {
-        dispatch(addTodo({id: uuidv4(), name: addText, completed: false}))
-        setAddText('')
-        insertDataFromSupabase()
+        if(addText) {
+            dispatch(addTodo({id: uuidv4(), name: addText, completed: false}))
+            setAddText('')
+            insertDataFromSupabase()
+        } else {
+            messageApi.open({
+                type: 'error',
+                content: trans.errorEmpty,
+                duration: 5
+            })
+        }  
     }
 
     const handlePagination = (page: number) => {     
@@ -32,11 +41,12 @@ const Todolist: React.FC = () => {
     }
 
     const insertDataFromSupabase = async () => {
+        const date = new Date(Date.now());
         try {
             const { data, error } = await supabase
             .from('Todo')
             .insert([
-                { name: addText, completed: false },
+                { name: addText, completed: false, date: date },
             ])
 
             if (error) {
@@ -52,6 +62,7 @@ const Todolist: React.FC = () => {
             const { data, error } = await supabase
             .from('Todo')
             .select('*')
+            .order('date', {ascending: false})
       
             if (error) {
                 console.error('Error fetching data', error.message)
@@ -83,6 +94,7 @@ const Todolist: React.FC = () => {
                 <Row>
                     <Space.Compact style={{ width: '100%' }}>
                         <Input placeholder={trans.phAdd} value={addText} onChange={handleAddText}/>
+                        {contextHolder}
                         <Button type="primary" onClick={handleClickAddText}>{trans.Add}</Button>
                     </Space.Compact>
                 </Row>

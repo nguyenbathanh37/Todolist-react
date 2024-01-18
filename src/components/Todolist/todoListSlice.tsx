@@ -29,7 +29,7 @@ export const todoListSlice = createSlice({
       state.todos = action.payload
     },
     addTodo: (state, action: PayloadAction<Todo>) => {
-      state.todos.push(action.payload)
+      state.todos.unshift(action.payload)
     },
     deleteTodo: (state, action: PayloadAction<string>) => {
       state.todos = state.todos.filter(todo => todo.id !== action.payload)
