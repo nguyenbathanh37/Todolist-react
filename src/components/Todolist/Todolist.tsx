@@ -79,7 +79,7 @@ const Todolist: React.FC = () => {
     }, [])
 
     return (
-        <Row style={{ height: 'calc(100% - 40px)' }}>
+        <Row style={{ height: '70%' }}>
             <Col span={24}  style={{ height: 'calc(100% - 60px)'}}>
                 {todosPerPage.map((todo) => (
                     <Todo key={todo.id} id={todo.id} name={todo.name}></Todo>

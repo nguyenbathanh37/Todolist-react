@@ -6,5 +6,12 @@
     "Search": "Search",
     "phAdd": "Add Todo",
     "phSearch": "Enter the todo you want to search for",
-    "errorEmpty": "Todo cannot be empty"
+    "errorEmpty": "Todo cannot be empty",
+    "Login": "Login",
+    "phUsername": "Username",
+    "phPassword": "Password",
+    "ForgotPassword": "Forgot Password",
+    "Or": "Or",
+    "Register": "Register now!",
+    "errorLogin": "Username or password is incorrect"
 }

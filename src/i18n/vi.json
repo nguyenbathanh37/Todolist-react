@@ -1,10 +1,17 @@
 {
         "Title": "Ứng dụng việc cần làm",
         "Add": "Thêm",
-        "Delete": "Xóa", 
+        "Delete": "Xóa",
         "Edit": "Sửa",
         "Search": "Tìm kiếm",
         "phAdd": "Thêm việc cần làm",
         "phSearch": "Nhập việc cần làm muốn tìm kiếm",
-        "errorEmpty": "Việc cần làm không được để trống"
+        "errorEmpty": "Việc cần làm không được để trống",
+        "Login": "Đăng nhập",
+        "phUsername": "Tên đăng nhập",
+        "phPassword": "Mật khẩu",
+        "ForgotPassword": "Quên mật khẩu",
+        "Or": "Hoặc",
+        "Register": "Đăng ký ngay bây giờ!",
+        "errorLogin": "Tài khoản hoặc mật khẩu không chính xác"
 }

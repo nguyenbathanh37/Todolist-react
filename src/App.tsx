@@ -1,11 +1,17 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import Title from './components/Title/Title'
 import Filter from './components/Filter/Filter';
 import Todolist from './components/Todolist/Todolist';
 import ChangeLanguage from './components/ChangeLanguage/ChangLanguage';
+import Login from './components/Login/Login';
 import { Divider } from 'antd';
+import Homepage from './pages/Homepage';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route
+} from 'react-router-dom';
 
 function App() {
   return (
@@ -22,12 +28,20 @@ function App() {
         height: '90vh',
       }}
     >
-      <ChangeLanguage></ChangeLanguage>
+      {/* <ChangeLanguage></ChangeLanguage>
       <Title></Title>
       <Filter></Filter>
       <Divider></Divider>
-      <Todolist></Todolist>
+      <Todolist></Todolist> */}
+      <ChangeLanguage></ChangeLanguage>
+      <Router>
+        <Routes>
+          <Route path='/' element={<Homepage />}></Route>
+          <Route path='/login' element={<Login />}></Route>
+        </Routes>
+      </Router>
     </div>
+
   );
 }
 
