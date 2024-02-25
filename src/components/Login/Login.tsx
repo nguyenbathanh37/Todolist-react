@@ -5,7 +5,7 @@ import supabase from '../../supabase/supabase.config';
 import { AppDispatch } from '../../redux/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from './authSlice';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { selectTranslation } from '../../i18n/i18nSlice';
 
 const Login: React.FC = () => {
@@ -53,17 +53,6 @@ const Login: React.FC = () => {
         }
     }
 
-    // const validateLogin = (username: string, password: string): string => {
-    //     const regex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
-    //     const minLengthPassword = 8
-    //     if (!regex.test(username)) {
-    //         return 'Email invalid'
-    //     } else if (password.length <= minLengthPassword) {
-    //         return 'Minimum password length is 8 characters'
-    //     }
-    //     return ''
-    // }
-
     return (
         <div>
 
@@ -80,7 +69,7 @@ const Login: React.FC = () => {
             >
                 <Input 
                     prefix={<UserOutlined className="site-form-item-icon" />} 
-                    placeholder={trans.phUsername}
+                    placeholder={trans.phEmail}
                     value={username} 
                     onChange={handleUserName} 
                 />
@@ -112,7 +101,7 @@ const Login: React.FC = () => {
                 <Button type="primary" htmlType="submit" className="login-form-button" style={{width: '100%'}}>
                     {trans.Login}
                 </Button>
-                {trans.Or} <a href="">{trans.Register}</a>
+                {trans.Or} <Link to='/register'>{trans.Register}</Link>
             </Form.Item>
         </Form>
         </div>

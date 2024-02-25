@@ -7,6 +7,7 @@ import ChangeLanguage from './components/ChangeLanguage/ChangLanguage';
 import Login from './components/Login/Login';
 import { Divider } from 'antd';
 import Homepage from './pages/Homepage';
+import Register from './components/Register/Register';
 import {
   BrowserRouter as Router,
   Routes,
@@ -38,6 +39,7 @@ function App() {
         <Routes>
           <Route path='/' element={<Homepage />}></Route>
           <Route path='/login' element={<Login />}></Route>
+          <Route path='/register' element={<Register/>}></Route>
         </Routes>
       </Router>
     </div>
