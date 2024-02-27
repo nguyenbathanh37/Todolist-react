@@ -7,6 +7,7 @@ import { addTodo, setTodo, setCurrentPage, selectCurrentPage, selectTodosPerPage
 import supabase from "../../supabase/supabase.config";
 import { v4 as uuidv4 } from "uuid";
 import { selectTranslation } from "../../i18n/i18nSlice";
+import { selectUserID } from "../Login/authSlice";
 
 const Todolist: React.FC = () => {
     const [addText, setAddText] = useState<string>('')
@@ -15,6 +16,7 @@ const Todolist: React.FC = () => {
     const numberOfTodosPerPage = useSelector(selectNumberOfTodosPerPage)
     const currentPage = useSelector(selectCurrentPage)
     const trans = useSelector(selectTranslation)
+    const user_id = useSelector(selectUserID)
     const dispatch: AppDispatch = useDispatch()
     const [messageApi, contextHolder] = message.useMessage();
 
@@ -23,10 +25,11 @@ const Todolist: React.FC = () => {
     }
 
     const handleClickAddText = () => {
+        const todo_id = uuidv4()
         if(addText) {
-            dispatch(addTodo({id: uuidv4(), name: addText, completed: false}))
+            dispatch(addTodo({id: todo_id, name: addText, completed: false}))
             setAddText('')
-            insertDataFromSupabase()
+            insertDataFromSupabase(todo_id, user_id)
         } else {
             messageApi.open({
                 type: 'error',
@@ -40,13 +43,13 @@ const Todolist: React.FC = () => {
         dispatch(setCurrentPage(page))
     }
 
-    const insertDataFromSupabase = async () => {
+    const insertDataFromSupabase = async (id: string, user_id: string) => {
         const date = new Date(Date.now());
         try {
             const { data, error } = await supabase
             .from('Todo')
             .insert([
-                { name: addText, completed: false, date: date },
+                {id: id, name: addText, completed: false, date: date, user_id: user_id },
             ])
 
             if (error) {
@@ -63,6 +66,7 @@ const Todolist: React.FC = () => {
             .from('Todo')
             .select('*')
             .order('date', {ascending: false})
+            .eq('user_id', user_id)
       
             if (error) {
                 console.error('Error fetching data', error.message)

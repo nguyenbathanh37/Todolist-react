@@ -39,7 +39,7 @@ const Login: React.FC = () => {
             }
 
             if (data.length != 0) {
-                dispatch(login({email: username, fullname: data[0].fullname}))
+                dispatch(login({user_id: data[0].user_id, email: username, fullname: data[0].fullname, isLoggin: true}))
                 navigate('/')
             } else {
                 messageApi.open({

@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import type { CascaderProps } from 'antd';
-import { AutoComplete, Button, Cascader, Checkbox, Col, Form, Input, InputNumber, Row, Select, message } from 'antd';
+import { Button, Checkbox, Form, Input, Select, message } from 'antd';
 import supabase from '../../supabase/supabase.config';
 import { useNavigate, Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { selectTranslation } from '../../i18n/i18nSlice';
+import { v4 as uuidv4 } from 'uuid';
 
 const { Option } = Select;
 
@@ -69,10 +69,11 @@ const Register: React.FC = () => {
 
             if (data?.length == 0) {
                 const date = new Date(Date.now())
+                const user_id = uuidv4()
                 const {data, error} = await supabase
                 .from('User')
                 .insert([
-                    {email: values.email, password: values.password, fullname: values.fullname, gender: values.gender, created_at: date}
+                    {user_id: user_id, email: values.email, password: values.password, fullname: values.fullname, gender: values.gender, created_at: date}
                 ])
                 navigate('/login')
             } else {
@@ -85,7 +86,6 @@ const Register: React.FC = () => {
         } catch (error) {
             console.log(error);
         }
-        // console.log('Received values of form: ', values);
     };
 
     return (
@@ -207,23 +207,6 @@ const Register: React.FC = () => {
                         <Option value="other">{trans.other}</Option>
                     </Select>
                 </Form.Item>
-
-                {/* <Form.Item label="Captcha" extra="We must make sure that your are a human.">
-                    <Row gutter={8}>
-                        <Col span={12}>
-                            <Form.Item
-                                name="captcha"
-                                noStyle
-                                rules={[{ required: true, message: 'Please input the captcha you got!' }]}
-                            >
-                                <Input />
-                            </Form.Item>
-                        </Col>
-                        <Col span={12}>
-                            <Button>Get captcha</Button>
-                        </Col>
-                    </Row>
-                </Form.Item> */}
 
                 <Form.Item
                     name="agreement"
