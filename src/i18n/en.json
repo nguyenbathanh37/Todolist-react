@@ -35,5 +35,7 @@
     "errorAgreement": "Should accept agreement",
     "agreementRead1": "I have read the",
     "agreementRead2": "agreement",
-    "haveAnAccount": "If you already have an account"
+    "haveAnAccount": "If you already have an account",
+    "logout": "Logout",
+    "welcome": "Welcome"
 }

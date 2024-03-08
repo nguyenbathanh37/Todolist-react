@@ -38,3 +38,4 @@ export default authSlice.reducer
 
 export const selectIsLoggin = (state: RootState) => state.auth.isLoggin
 export const selectUserID = (state: RootState) => state.auth.user_id
+export const selectFullname = (state: RootState) => state.auth.fullname

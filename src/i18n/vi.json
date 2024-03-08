@@ -35,5 +35,7 @@
         "errorAgreement": "Nên chấp nhận điều khoản",
         "agreementRead1": "Tôi đã đọc",
         "agreementRead2": "điều khoản",
-        "haveAnAccount": "Nếu bạn đã có tài khoản"
+        "haveAnAccount": "Nếu bạn đã có tài khoản",
+        "logout": "Đăng xuất",
+        "welcome": "Xin chào"
 }

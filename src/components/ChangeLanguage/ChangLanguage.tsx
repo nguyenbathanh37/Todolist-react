@@ -15,14 +15,16 @@ const ChangeLanguage: React.FC = () => {
     }
 
     return (
+
         <Select
             defaultValue={defaultLang}
             style={{ width: 120 }}
             onChange={handleChange}
             options={Object.keys(supportLangs).map((key) => (
-                {value: key, label: supportLangs[key]}
+                { value: key, label: supportLangs[key] }
             ))}
         />
+
     );
 }
 
