@@ -1,23 +1,21 @@
 import { useState } from 'react';
-import { Button, Checkbox, Form, Input, Select, message } from 'antd';
+import { Button, Form, Input, message } from 'antd';
 import supabase from '../../supabase/supabase.config';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { selectTranslation } from '../../i18n/i18nSlice';
-import { v4 as uuidv4 } from 'uuid';
-import { auth } from '../../firebase/firebase.config';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { confirmThePasswordReset } from '../../firebase/firebase.config';
 
-const { Option } = Select;
-
-const Register: React.FC = () => {
+const UpdatePassword: React.FC = () => {
     const [email, setEmail] = useState<string>('')
     const [password, setPassword] = useState<string>('')
     const [confirmPassword, setConfirmPassword] = useState<string>('')
-    const [fullname, setFullname] = useState<string>('')
     const [messageApi, contextHolder] = message.useMessage();
     const navigate = useNavigate()
     const trans = useSelector(selectTranslation)
+
+    const [searchParams] = useSearchParams()
+    let oobCode: string | null = searchParams.get('oobCode')
 
     const formItemLayout = {
         labelCol: {
@@ -57,37 +55,16 @@ const Register: React.FC = () => {
         setConfirmPassword(e.target.value)
     }
 
-    const handleFullname = (e: any) => {
-        setFullname(e.target.value)
-    }
-
     const onFinish = async (values: any) => {
         try {
-            const { data, error } = await supabase
+            if (oobCode) {
+                await confirmThePasswordReset(oobCode, values.confirm)
+                // có thể thay đổi pass của email khác
+                const { data, error } = await supabase
                 .from('User')
-                .select('*')
+                .update({'password': values.confirm})
                 .eq('email', values.email)
 
-            if (data?.length == 0) {
-                const date = new Date(Date.now())
-                const user_id = uuidv4()
-                const { data, error } = await supabase
-                    .from('User')
-                    .insert([
-                        { user_id: user_id, email: values.email, password: values.password, fullname: values.fullname, gender: values.gender, created_at: date }
-                    ])
-
-                if (!error) {
-                    createUserWithEmailAndPassword(auth, values.email, values.password)
-                        .then((userCredential) => {
-                            const user = userCredential.user;
-                        })
-                        .catch((error) => {
-                            const errorCode = error.code;
-                            const errorMessage = error.message;
-                            console.log(errorCode + errorMessage);
-                        });
-                }
                 navigate('/login')
             } else {
                 messageApi.open({
@@ -103,11 +80,11 @@ const Register: React.FC = () => {
 
     return (
         <div>
-            <h1>{trans.RegisterTitle}</h1>
+            <h1>{trans.updatePasswordTitle}</h1>
             <Form
                 {...formItemLayout}
                 form={form}
-                name="register"
+                name="update"
                 onFinish={onFinish}
                 style={{ maxWidth: 600 }}
                 scrollToFirstError
@@ -190,65 +167,15 @@ const Register: React.FC = () => {
                     />
                 </Form.Item>
 
-                <Form.Item
-                    name="fullname"
-                    label={trans.fullname}
-                    rules={[{ required: true, message: trans.errorFullnameEmpty, whitespace: true }]}
-                >
-                    <Input
-                        value={fullname}
-                        onChange={handleFullname}
-                    />
-                </Form.Item>
-
-                {/* <Form.Item
-                    name="phone"
-                    label="Phone Number"
-                    rules={[{ required: true, message: 'Please input your phone number!' }]}
-                >
-                    <Input addonBefore={prefixSelector} style={{ width: '100%' }} />
-                </Form.Item> */}
-
-                <Form.Item
-                    name="gender"
-                    label={trans.gender}
-                    rules={[{ required: true, message: trans.errorGenderEmpty }]}
-                >
-                    <Select placeholder={trans.phGender}>
-                        <Option value="male">{trans.male}</Option>
-                        <Option value="female">{trans.female}</Option>
-                        <Option value="other">{trans.other}</Option>
-                    </Select>
-                </Form.Item>
-
-                <Form.Item
-                    name="agreement"
-                    valuePropName="checked"
-                    rules={[
-                        {
-                            validator: (_, value) =>
-                                value ? Promise.resolve() : Promise.reject(new Error(trans.errorAgreement)),
-                        },
-                    ]}
-                    {...tailFormItemLayout}
-                >
-                    <Checkbox>
-                        {trans.agreementRead1} <Link to=''>{trans.agreementRead2}</Link>
-                    </Checkbox>
-                </Form.Item>
                 <Form.Item {...tailFormItemLayout}>
                     {contextHolder}
                     <Button type="primary" htmlType="submit">
-                        {trans.RegisterTitle}
+                        {trans.updateBtn}
                     </Button>
-                </Form.Item>
-
-                <Form.Item {...tailFormItemLayout}>
-                    {trans.haveAnAccount} <Link to='/login'>{trans.Login}</Link>
                 </Form.Item>
             </Form>
         </div>
     )
 }
 
-export default Register
+export default UpdatePassword

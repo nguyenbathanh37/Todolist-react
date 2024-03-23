@@ -37,5 +37,14 @@
     "agreementRead2": "agreement",
     "haveAnAccount": "If you already have an account",
     "logout": "Logout",
-    "welcome": "Welcome"
+    "welcome": "Welcome",
+    "successEmailReset": "Please check your email!",
+    "errorEmailUnregistered": "Unregistered email!",
+    "forgotPasswordTitle": "Forgot your password",
+    "forgotPasswordContent": "Please enter the email address you'd like your password reset information sent to",
+    "submitBtn": "Submit",
+    "updatePasswordTitle": "Update password",
+    "updateBtn": "Update",
+    "homepage": "Homepage",
+    "authentication": "Authentication"
 }

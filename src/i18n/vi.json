@@ -37,5 +37,14 @@
         "agreementRead2": "điều khoản",
         "haveAnAccount": "Nếu bạn đã có tài khoản",
         "logout": "Đăng xuất",
-        "welcome": "Xin chào"
+        "welcome": "Xin chào",
+        "successEmailReset": "Vui lòng kiểm tra email của bạn!",
+        "errorEmailUnregistered": "Email chưa đăng ký",
+        "forgotPasswordTitle": "Quên mật khẩu",
+        "forgotPasswordContent": "Vui lòng nhập địa chỉ email bạn muốn thông tin đặt lại mật khẩu của bạn được gửi tới",
+        "submitBtn": "Gửi",
+        "updatePasswordTitle": "Cập nhật mật khẩu",
+        "updateBtn": "Cập nhật",
+        "homepage": "Trang chủ",
+        "authentication": "Xác thực"
 }
