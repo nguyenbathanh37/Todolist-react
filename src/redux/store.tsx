@@ -4,7 +4,7 @@ import i18nReducer from "../i18n/i18nSlice";
 import filterReducer from "../components/Filter/filterSlice";
 import authReducer from "../components/Login/authSlice"
 import storage from "redux-persist/lib/storage";
-import { persistReducer, persistStore } from "redux-persist";
+import { persistReducer, persistStore, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from "redux-persist";
 
 const persistConfig = {
     key: 'root',
@@ -23,7 +23,13 @@ const rootReducer = combineReducers({
 const persistedAuthReducer = persistReducer(persistConfig, rootReducer) 
 
 const store = configureStore({
-    reducer: persistedAuthReducer
+    reducer: persistedAuthReducer,
+    middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }),
 })
 
 // const store = configureStore({

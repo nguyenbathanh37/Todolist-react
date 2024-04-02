@@ -1,10 +1,10 @@
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Checkbox, Form, Input, message } from 'antd';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import supabase from '../../supabase/supabase.config';
 import { AppDispatch } from '../../redux/store';
 import { useDispatch, useSelector } from 'react-redux';
-import { login } from './authSlice';
+import { login, selectIsLoggin } from './authSlice';
 import { useNavigate, Link } from 'react-router-dom';
 import { selectTranslation } from '../../i18n/i18nSlice';
 import { auth } from '../../firebase/firebase.config';
@@ -16,7 +16,14 @@ const Login: React.FC = () => {
     const dispatch: AppDispatch = useDispatch()
     const navigate = useNavigate()
     const trans = useSelector(selectTranslation)
+    const isLoggin = useSelector(selectIsLoggin)
     const [messageApi, contextHolder] = message.useMessage();
+
+    useEffect(() => {
+        if(isLoggin) {
+            navigate('/')
+        }
+    }, [isLoggin])
 
 
     const handleUserName = (e: any) => {

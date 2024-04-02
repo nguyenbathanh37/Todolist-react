@@ -31,7 +31,7 @@ function App() {
         <div
           style={{
             width: 500,
-            margin: '0 auto',
+            margin: '0 20%',
             display: 'flex',
             flexDirection: 'column',
             backgroundColor: 'white',

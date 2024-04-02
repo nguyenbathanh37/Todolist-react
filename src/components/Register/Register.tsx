@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button, Checkbox, Form, Input, Select, message } from 'antd';
 import supabase from '../../supabase/supabase.config';
 import { useNavigate, Link } from 'react-router-dom';
@@ -7,6 +7,7 @@ import { selectTranslation } from '../../i18n/i18nSlice';
 import { v4 as uuidv4 } from 'uuid';
 import { auth } from '../../firebase/firebase.config';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { selectIsLoggin } from '../Login/authSlice';
 
 const { Option } = Select;
 
@@ -18,6 +19,13 @@ const Register: React.FC = () => {
     const [messageApi, contextHolder] = message.useMessage();
     const navigate = useNavigate()
     const trans = useSelector(selectTranslation)
+    const isLoggin = useSelector(selectIsLoggin)
+
+    useEffect(() => {
+        if(isLoggin) {
+            navigate('/')
+        }
+    }, [isLoggin])
 
     const formItemLayout = {
         labelCol: {
